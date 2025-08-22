@@ -1,0 +1,164 @@
+
+header{
+  display: flex;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+  height: 64px;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: inter, sans-serif;
+  margin: 0%;
+  background-color: lightgray;
+}
+
+nav{
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: white;
+  margin-left: auto;
+}
+
+nav > p {
+  padding-left: 20px;
+}
+
+header > img{
+  width: 48px;
+  height: 48px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.card{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: #fff;
+  color: #111;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card:hover{
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.card_img{
+  width: 25%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.card_body{
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.player_name{
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.season{
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.stats{
+  font-size: 1rem;
+  color: #222;
+}
+
+.featured{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.card_wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+}
+
+.card_header{
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #111;
+}
+
+.stat_table{
+  /*display: flex;*/
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  width: 85%;
+  padding: 2px;
+  margin: 1rem auto; 
+  overflow: auto
+}
+
+.stat_table:hover{
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.stat_table tbody tr:nth-child(even){ /*striped rows */
+  background: rgba(0,0,0,0.05);
+}
+
+.stat_table > thead{
+  text-align: left;
+}
+
+.section_header{
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.nav_btn{
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+}
+
+.nav_btn > button{
+  background-color: white;
+  color: black;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.next::after {
+  content: " >";
+  font-weight: bold;
+  color: black;
+}
+
+.prev::after {
+  content: " <";
+  font-weight: bolder;
+  color: black;
+}
+
