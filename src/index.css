@@ -400,7 +400,7 @@ header > img{
 .conference_button{
   flex: 1 1 0;
   min-width: 0;      
-  padding: 0.65rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -414,4 +414,139 @@ header > img{
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(11,26,48,0.06);
   outline: none;
+}
+
+.team_card{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 90%;
+}
+
+.team_title{
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.teams{
+  text-align: center;
+}
+
+.conference_title{
+  margin: 0;
+}
+
+.players_list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.player_card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s ease, box-shadow .12s ease;
+  overflow: hidden;
+}
+
+.player_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(10,30,60,0.06);
+}
+
+.players_page{
+  padding-bottom: 40px; 
+}
+
+.players_title{
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
+.player_info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;   
+  overflow: hidden;
+}
+
+.nav_btn_players{
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.98);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(10,30,60,0.08);
+}
+
+/* button styles inside pager */
+.nav_btn_players button{
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.nav_btn_players span{
+  font-weight: 600;
+  color: #222;
+}
+
+.navbar{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.navbar a{
+  text-decoration: none;
+}
+
+.navbar p{
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: white;
+  cursor: pointer;
+  background: transparent;
+  transition: background .12s ease, transform .08s ease, box-shadow .12s ease;
+}
+
+/* hover / focus styles */
+.navbar p:hover,
+.navbar a:focus > p{
+  background: rgba(10,102,194,0.06);
+  transform: translateY(-1px);
+}
+
+.navbar .active > p,
+.navbar a.active > p{
+  background: linear-gradient(180deg,#ecf6ff,#e6f0ff);
+  border: 1px solid rgba(10,102,194,0.14);
+  box-shadow: 0 6px 14px rgba(10,102,194,0.06);
+  color: #05345a;
 }

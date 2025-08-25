@@ -9,6 +9,8 @@ import About from './components/About.jsx';
 import PlayerProfile from './components/PlayerProfile.jsx';
 import TeamProfile from './components/TeamProfile.jsx';
 import Standings from './components/Standings.jsx';
+import Teams from './components/Teams.jsx';
+import AllPlayers from './components/AllPlayers.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: '/standings',
     element: <Standings />,
+  },
+  {
+    path: '/teams',
+    element: <Teams />,
+  },
+  {
+    path: '/allplayers',
+    element: <AllPlayers />,
   }
 ])
 

@@ -17,6 +17,11 @@
 - Added team profile with general team info, franchise leaders, and a table displaying the roster and coaches
 - Created standings table
 
+## 8/25/25
+- Finished standings table with ability to switch conferences, streak indicators, and playoffs/playins indicators
+- Implemented the team tab where you can see the list of all current teams separated by conference and division
+- Added all players tab where you can see every NBA player and search by name
+
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN
 NBA api from here: https://github.com/swar/nba_api/tree/master

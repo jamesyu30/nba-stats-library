@@ -57,27 +57,27 @@ export default function InfoCard(props) {
     function renderFranchiseLeaders(cat) {
         if(cat == "Points"){
             return (
-                <Link to={`/players/${props.ptsId}`}>{props.ptsName} - {props.pts}</Link>
+                <Link to={`/players/${props.ptsId}`} style={{ textDecoration: "none", color: "#0a66c2"}}>{props.ptsName} - {props.pts}</Link>
             )
         }
         else if(cat == "Rebounds"){
             return (
-                <Link to={`/players/${props.rebId}`}>{props.rebName} - {props.reb}</Link>
+                <Link to={`/players/${props.rebId}`} style={{ textDecoration: "none", color: "#0a66c2"}}>{props.rebName} - {props.reb}</Link>
             )
         }
         else if(cat == "Assists"){
             return (
-                <Link to={`/players/${props.astId}`}>{props.astName} - {props.ast}</Link>
+                <Link to={`/players/${props.astId}`} style={{ textDecoration: "none", color: "#0a66c2"}}>{props.astName} - {props.ast}</Link>
             )
         }
         else if(cat == "Blocks"){
             return (
-                <Link to={`/players/${props.blkId}`}>{props.blkName} - {props.blk}</Link>
+                <Link to={`/players/${props.blkId}`} style={{ textDecoration: "none", color: "#0a66c2"}}>{props.blkName} - {props.blk}</Link>
             )
         }
         else if(cat == "Steals"){
             return (
-                <Link to={`/players/${props.stlId}`}>{props.stlName} - {props.stl}</Link>
+                <Link to={`/players/${props.stlId}`} style={{ textDecoration: "none", color: "#0a66c2"}}>{props.stlName} - {props.stl}</Link>
             )
         }
     }
@@ -96,7 +96,7 @@ export default function InfoCard(props) {
                             return(
                                 <div className="info_card_stats" key={props.teamId+props.ast+props.tov*props.age}>
                                     <p className="stat">
-                                        <Link to={`/team/${props.teamId}`}>{bio[cat]}</Link>
+                                        <Link to={`/team/${props.teamId}`} style={{ textDecoration: "none"}} >{bio[cat]}</Link>
                                     </p>
                                     <p className="cat">{cat}</p>
                                 </div>

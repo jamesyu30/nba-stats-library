@@ -17,11 +17,11 @@ export default function Card(props) {
               <h3 className="player_name">{props.name} - ({props.position} / #{props.jersey})</h3>
               <p className="season">{props.season}</p>
               <div className="stats">
-                {props.team} <br />
+                <strong>{props.team}</strong><br />
                 {props.draftInfo} <br />
-                Points per game: {props.ppg} <br />
-                Assists per game: {props.apg} <br />
-                Rebounds per game: {props.rpg} <br />
+                <strong>Points per game:</strong> {props.ppg} <br />
+                <strong>Assists per game:</strong> {props.apg} <br />
+                <strong>Rebounds per game:</strong> {props.rpg} <br />
               </div>
             </div>
           </>
@@ -32,11 +32,11 @@ export default function Card(props) {
             <h3 className="team_name">{props.name}</h3>
             <p className="gleague">G League: {props.gleague}</p>
             <div className="stats">
-              Owner: {props.owner} <br />
-              General Manager: {props.generalManager} <br />
-              Head Coach: {props.headCoach} <br />
-              Arena: {props.arena} <br />
-              Year Founded: {props.yearFounded} <br />
+              <strong>Owner:</strong> {props.owner} <br />
+              <strong>General Manager:</strong> {props.generalManager} <br />
+              <strong>Head Coach:</strong> {props.headCoach} <br />
+              <strong>Arena:</strong> {props.arena} <br />
+              <strong>Year Founded:</strong> {props.yearFounded} <br />
             </div>
           </div>
           </>

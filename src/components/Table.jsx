@@ -43,7 +43,7 @@ export default function Table(props) {
                 <tbody>
                     {props.type == 'active' && props.data.map(data => (
                         <tr key={data.id}>
-                            <td className="active_name"><Link to={`/players/${data.id}`}>{data.name}</Link></td>
+                            <td className="active_name" style={{ textDecoration: "none", color: "#0a66c2"}}><Link to={`/players/${data.id}`}>{data.name}</Link></td>
                             <td className="active_team">{data.team == "null null" ? "N/A" : data.team}</td>
                             <td className="active_college">{data.college}</td>
                             <td className="active_position">{data.position}</td>

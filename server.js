@@ -491,6 +491,100 @@ app.get('/api/roster/:id', async(req, res) => {
   }
 });
 
+app.get('/api/standings', async (req, res) => {
+  try {
+    const url = `https://stats.nba.com/stats/leaguestandingsv3?LeagueID=00&Season=${SEASON}&SeasonType=Regular+Season&SeasonYear=`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet;
+    const west = parsed.filter(team => team[6] === 'West');
+    const east = parsed.filter(team => team[6] === 'East');
+    const westData = [];
+    const eastData = [];
+    let westPos = 0;
+    for (const team of west) {
+      westPos++;
+      westData.push({
+        pos: westPos,
+        id: team[2],
+        name: team[3] + " " + team[4],
+        confR: team[7],
+        record: team[17],
+        winPercentage: team[15],
+        homeR: team[18],
+        awayR: team[19],
+        L10: team[20],
+        streak: team[37],
+        streakInt: team[36],
+        gb: team[38] == 0 ? "—" : team[38],
+        playoffs: team[42],
+        playin: team[43]
+      });
+    }
+    let eastPos = 0;
+    for (const team of east) {
+      eastPos++;
+      eastData.push({
+        pos: eastPos,
+        id: team[2],
+        name: team[3] + " " + team[4],
+        confR: team[7],
+        record: team[17],
+        winPercentage: team[15],
+        homeR: team[18],
+        awayR: team[19],
+        L10: team[20],
+        streak: team[37],
+        streakInt: team[36],
+        gb: team[38] == 0 ? "—" : team[38],
+        playoffs: team[42],
+        playin: team[43]
+      });
+    }
+
+    return res.json({ west: westData, east: eastData });
+  } catch (error) {
+    console.error('Error fetching standings:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/allplayers', async (req, res) => {
+  try {
+    const url = `https://stats.nba.com/stats/commonallplayers?IsOnlyCurrentSeason=0&LeagueID=00&Season=${SEASON}`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet;
+    const players = [];
+    for(const p of parsed){
+      players.push({
+        id: p[0],
+        name: p[2],
+        years: "(" + p[4] + " - " + p[5] + ")"
+      });
+    }
+
+    return res.json(players);
+  } catch (error) {
+    console.error('Error fetching all players:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/', (req, res) => {
   res.send('NBA Stats API is running!')
 })

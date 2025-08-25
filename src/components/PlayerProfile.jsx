@@ -65,7 +65,7 @@ export default function PlayerProfile() {
             
             {seasonStats ? <InfoCard title={"Season Stats"} age={seasonStats.age} pts={seasonStats.pts} reb={seasonStats.reb} ast={seasonStats.ast} stl={seasonStats.stl} blk={seasonStats.blk} plusMinus={seasonStats.plusMinus} 
             tov={seasonStats.tov} gp={seasonStats.gp} fga={seasonStats.fga} fgm={seasonStats.fgm} fgPct={seasonStats.fgPct} threePct={seasonStats.threePct} ftPct={seasonStats.ftPct} record={seasonStats.record} fantasy={seasonStats.fantasy} image={false} cardType={"season"}
-            categories={["Age", "GP", "Record", "FGM", "FGA", "FG%", "3P%", "FT%", "PTS", "REB", "AST", "STL", "BLK", "TOV", "Plus/Minus", "Fantasy Points"]} /> : <p>Loading...</p>}
+            categories={["Age", "GP", "Record", "FGM", "FGA", "FG%", "3P%", "FT%", "PTS", "REB", "AST", "STL", "BLK", "TOV", "Plus/Minus", "Fantasy Points"]} /> : null}
 
             {yoyStats ? (
              <div style={{ width: '100%' }}>
@@ -79,7 +79,7 @@ export default function PlayerProfile() {
                      background: '#fff',
                      cursor: 'pointer',
                      height: '28px',
-                     marginLeft: '2rem',
+                     marginLeft: '2rem'
                    }}
                    aria-pressed={yoyPerGame}
                    title="Toggle totals / per game"

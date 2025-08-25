@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const mockEast = [
   { rank: 1, team: "BOS", teamId: 1610612738, w: 58, l: 24, pct: ".707", gb: "—" },
@@ -15,11 +16,25 @@ const mockWest = [
   // ...add more rows or replace with real data
 ];
 
-export default function Standings({ east = mockEast, west = mockWest }) {
+export default function Standings() {
   const [conference, setConference] = useState("east") // "east" | "west"
-  const rows = conference === "east" ? east : west
+  const [eastData, setEastData] = useState();
+  const [westData, setWestData] = useState();
+  const rows = conference == "east" ? eastData : westData;
+
+  useEffect(() => {
+    const fetchStandings = async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/standings`);
+      const data = await response.json();
+      setEastData(data.east);
+      setWestData(data.west);
+    }
+    fetchStandings();
+  }, [])
 
   return (
+    <>
+    <Navbar />
     <section className="standings">
       <div className="conference_buttons">
         <button
@@ -45,33 +60,62 @@ export default function Standings({ east = mockEast, west = mockWest }) {
         </button>
       </div>
 
-      <table className="standings_table" style={{ width: "100%", borderCollapse: "collapse", minWidth: 420 }}>
-        <thead>
-          <tr>
-            <th style={{ textAlign: "left", padding: "8px 12px" }}>#</th>
-            <th style={{ textAlign: "left", padding: "8px 12px" }}>Team</th>
-            <th style={{ padding: "8px 12px" }}>W</th>
-            <th style={{ padding: "8px 12px" }}>L</th>
+      {eastData && westData ? (
+        <table className="standings_table" style={{ width: "100%", borderCollapse: "collapse", minWidth: 420 }}>
+          <thead>
+            <tr>
+              <th style={{ textAlign: "left", padding: "8px 12px" }}>#</th>
+              <th style={{ textAlign: "left", padding: "8px 12px" }}>Team</th>
+            <th style={{ padding: "8px 12px" }}>Record</th>
             <th style={{ padding: "8px 12px" }}>PCT</th>
             <th style={{ padding: "8px 12px" }}>GB</th>
+            <th style={{ padding: "8px 12px" }}>Conf</th>
+            <th style={{ padding: "8px 12px" }}>Home</th>
+            <th style={{ padding: "8px 12px" }}>Away</th>
+            <th style={{ padding: "8px 12px" }}>L10</th>
+            <th style={{ padding: "8px 12px" }}>Streak</th>
           </tr>
         </thead>
 
         <tbody>
-          {rows.map(row => (
-            <tr key={row.teamId ?? row.team} style={{ borderTop: "1px solid #eee" }}>
-              <td style={{ padding: "8px 12px" }}>{row.rank}</td>
-              <td style={{ padding: "8px 12px" }}>
-                {row.teamId ? <Link to={`/team/${row.teamId}`} style={{ color: "#0a66c2", textDecoration: "none" }}>{row.team}</Link> : row.team}
-              </td>
-              <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.w}</td>
-              <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.l}</td>
-              <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.pct}</td>
-              <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.gb}</td>
-            </tr>
-          ))}
+          {rows.map(row => {
+            let bg;
+            if(row.playoffs == 1){
+              bg = "#e9f7ef";
+            }else if(row.playin == 1){
+              bg = "#fff8e6";
+            }else{
+              bg = "transparent";
+            }
+
+            return (
+              <tr key={row.name} style={{ borderTop: "1px solid #eee", background: bg }}>
+                <td style={{ padding: "8px 12px" }}>{row.pos}</td>
+                <td style={{ padding: "8px 12px" }}>
+                  {row.id ? <Link to={`/team/${row.id}`} style={{ color: "#0a66c2", textDecoration: "none" }}>{row.name}</Link> : row.name}
+                </td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.record}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.winPercentage}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.gb}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.confR}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.homeR}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.awayR}</td>
+                <td style={{ padding: "8px 12px", textAlign: "center" }}>{row.L10}</td>
+                <td style={{ padding: "8px 12px", position: "relative", minWidth: 96 }}>
+                  <span style={{ display: "inline-block", width: "100%", textAlign: "center" }}>{row.streak}</span>
+                  {row.streakInt > 2 && (
+                    <span style={{ position: "absolute", right: "70px", top: "50%", transform: "translateY(-50%)" }}>🔥</span>
+                  )}
+                  {row.streakInt < -2 && (
+                    <span style={{ position: "absolute", right: "70px", top: "50%", transform: "translateY(-50%)"}}>❄️</span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
-      </table>
+      </table> ) : <p>Loading...</p>}
     </section>
+    </>
   )
 }
