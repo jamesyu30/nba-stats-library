@@ -2,3 +2,21 @@
 - Developed a nav bar with logo and nav elements
 - Added daily feature cards template 
 - Added table of active players with buttons to switch between pages
+
+## 8/22/25
+- Added data to the cards of the day
+
+## 8/23/25
+- Implemented table of active players with sorting feature and different pages
+- Added routes using react router
+- Added env file/changed some routes
+- Started working on player profiles
+
+## 8/24/25
+- Finished player profile with current season stats and past season stats
+- Added team profile with general team info, franchise leaders, and a table displaying the roster and coaches
+- Created standings table
+
+NBA team logos from here: https://github.com/gtkacz/nba-logo-api
+Player headshots from official NBA CDN
+NBA api from here: https://github.com/swar/nba_api/tree/master
