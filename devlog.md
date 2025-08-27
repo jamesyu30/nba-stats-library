@@ -22,6 +22,12 @@
 - Implemented the team tab where you can see the list of all current teams separated by conference and division
 - Added all players tab where you can see every NBA player and search by name
 
+## 8/26/25
+- Added games search tab
+- Ability to search games by teams and season and displaying the filtered results to the page
+
+## 8/27/25
+
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN
 NBA api from here: https://github.com/swar/nba_api/tree/master

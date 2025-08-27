@@ -10,6 +10,7 @@ export default function Navbar() {
           <NavLink to="/allplayers"><p>Players</p></NavLink>
           <NavLink to="/teams"><p>Teams</p></NavLink>
           <NavLink to="/standings"><p>Standings</p></NavLink>
+          <NavLink to="/games"><p>Games</p></NavLink>
           <NavLink to="/about"><p>About</p></NavLink>
     </nav>
     </header>

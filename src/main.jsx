@@ -11,6 +11,8 @@ import TeamProfile from './components/TeamProfile.jsx';
 import Standings from './components/Standings.jsx';
 import Teams from './components/Teams.jsx';
 import AllPlayers from './components/AllPlayers.jsx';
+import Games from './components/Games.jsx';
+import GamesProfile from './components/GamesProfile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
   {
     path: '/allplayers',
     element: <AllPlayers />,
+  },
+  {
+    path: '/games',
+    element: <Games />,
+  },
+  {
+    path: '/games/:id',
+    element: <GamesProfile />,
   }
 ])
 

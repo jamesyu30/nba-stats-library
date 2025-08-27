@@ -499,8 +499,8 @@ header > img{
   box-shadow: 0 8px 24px rgba(10,30,60,0.08);
 }
 
-/* button styles inside pager */
-.nav_btn_players button{
+
+.nav_btn_players > button{
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -508,7 +508,7 @@ header > img{
   cursor: pointer;
 }
 
-.nav_btn_players span{
+.nav_btn_players > span{
   font-weight: 600;
   color: #222;
 }
@@ -536,17 +536,80 @@ header > img{
   transition: background .12s ease, transform .08s ease, box-shadow .12s ease;
 }
 
-/* hover / focus styles */
-.navbar p:hover,
-.navbar a:focus > p{
+
+.navbar > p:hover,
+.navbar > a:focus > p{
   background: rgba(10,102,194,0.06);
   transform: translateY(-1px);
 }
 
-.navbar .active > p,
-.navbar a.active > p{
+.navbar > .active > p,
+.navbar > a.active > p{
   background: linear-gradient(180deg,#ecf6ff,#e6f0ff);
   border: 1px solid rgba(10,102,194,0.14);
   box-shadow: 0 6px 14px rgba(10,102,194,0.06);
   color: #05345a;
+}
+
+.gamesForm{
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.gameResults {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(180deg,#ffffff,#fbfdff);
+  border: 1px solid #e8eef6;
+  border-radius: 10px;
+  padding: 30px 14px;
+  box-shadow: 0 6px 18px rgba(10,30,60,0.04);
+  font-size: 0.95rem;
+  color: #24303a;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gameResults > strong {
+  display: block;
+  font-weight: 700;
+  color: #083046;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.gameResults > span {
+  font-weight: 800;
+  color: #0a66c2;
+  min-width: 88px;
+  text-align: right;
+  font-size: 0.98rem;
+}
+
+.gameResults:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(10,30,60,0.06);
+}
+
+.lost{
+  color: crimson;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.won{
+  color: limegreen;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.gameResults_game_link{
+  text-decoration: none;
 }

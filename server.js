@@ -585,6 +585,61 @@ app.get('/api/allplayers', async (req, res) => {
   }
 });
 
+
+app.get('/api/games', async (req, res) => {
+  try {
+    const { TeamID, VsTeamID, Season } = req.query;
+
+    const seasonParam = Season || SEASON;
+
+    const params = new URLSearchParams({
+      Conference: '',
+      Division: '',
+      GameID: '',
+      Outcome: '',
+      LeagueID: '00',
+      PORound: '',
+      Season: seasonParam,
+      SeasonSegment: '',
+      SeasonType: 'Regular+Season'
+    });
+
+    if (TeamID !== undefined && TeamID !== '') params.set('TeamID', String(Number(TeamID)));
+    if (VsTeamID !== undefined && VsTeamID !== '') params.set('VsTeamID', String(Number(VsTeamID)));
+
+    const url = `https://stats.nba.com/stats/leaguegamefinder?Conference=&DateFrom=&DateTo=&Division=&GameID=&Outcome=&LeagueID=00&PORound=&Season=${Season}&SeasonSegment=&SeasonType=&TeamID=${Number(TeamID)}&VsTeamID=${Number(VsTeamID)}`
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet;
+    const matches = [] //array of game objects
+
+    for(const g of parsed) {
+      matches.push({
+        gameId: g[4],
+        date: g[5],
+        matchup: g[6],
+        wl: g[7],
+        homeScore: g[9],
+        awayScore: g[9]-g[27]
+      });
+    }
+
+    return res.json(matches);
+  } catch (error) {
+    console.error('Error fetching games:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+
 app.get('/', (req, res) => {
   res.send('NBA Stats API is running!')
 })
