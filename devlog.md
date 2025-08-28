@@ -27,6 +27,11 @@
 - Ability to search games by teams and season and displaying the filtered results to the page
 
 ## 8/27/25
+- Started on game profile view
+- Displays team names, logos, and records
+- Added a table to view points by quarter
+
+## 8/29/25
 
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN

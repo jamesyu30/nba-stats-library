@@ -639,6 +639,150 @@ app.get('/api/games', async (req, res) => {
   }
 });
 
+app.get('/api/boxscore/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const url = `https://stats.nba.com/stats/boxscoresummaryv2?GameID=${id}`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const time = data.resultSets[4].rowSet[0]; 
+    const stats = data.resultSets[5].rowSet;
+    const teamPointsTrimmed = []
+    for(let i = 8; i <= 21; i++) {
+      if(stats[0][i] > 0){
+        teamPointsTrimmed.push(stats[0][i]);
+      }
+    }
+
+    const oppTeamPointsTrimmed = []
+    for(let i = 8; i <= 21; i++) {
+      if(stats[1][i] > 0){
+        oppTeamPointsTrimmed.push(stats[1][i]);
+      }
+    }
+
+    const table_headers = ["Quarter", "Q1", "Q2", "Q3", "Q4", "OT1", "OT2", "OT3", "OT4", "OT5", "OT6", "OT7", "OT8", "OT9", "OT10"]
+
+    const gameStats = {
+      date: time[0],
+      attendance: time[1],
+      teamAbv: stats[0][4].toLowerCase(),
+      teamName: stats[0][5] + " " + stats[0][6],
+      teamRecord: stats[0][7],
+      teamPoints: teamPointsTrimmed,
+      totalPoints: stats[0][22],
+      oppTeamAbv: stats[1][4].toLowerCase(),
+      oppTeamName: stats[1][5] + " " + stats[1][6],
+      oppTeamRecord: stats[1][7],
+      oppTeamPoints: oppTeamPointsTrimmed,
+      oppTotalPoints: stats[1][22],
+      headers: table_headers.slice(0, teamPointsTrimmed.length + 1) //slices the headers array to match the number of quarters played
+    }
+
+    return res.json({ gameStats });
+  } catch (error) {
+    console.error('Error fetching boxscore:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/playergamestats/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const url = `https://stats.nba.com/stats/boxscoretraditionalv3?EndPeriod=1&EndRange=0&GameID=${id}&RangeType=0&StartPeriod=1&StartRange=0`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.boxScoreTraditional;
+    const homePlayerStats = []
+    const awayPlayerStats = []
+    for (const player of parsed.homeTeam.players){
+      homePlayerStats.push({
+        playerId: player.personId,
+        playerName: player.firstName + " " + player.familyName,
+        position: player.position,
+        minutes: player.statistics.minutes,
+        points: player.statistics.points,
+        assists: player.statistics.assists,
+        rebounds: player.statistics.reboundsTotal,
+        steals: player.statistics.steals,
+        blocks: player.statistics.blocks,
+        turnovers: player.statistics.turnovers,
+        plusMinus: player.statistics.plusMinusPoints,
+        fouls: player.statistics.foulsPersonal,
+        fieldGoals: player.statistics.fieldGoalsMade + "-" + player.statistics.fieldGoalsAttempted,
+        threePoints: player.statistics.threePointersMade + "-" + player.statistics.threePointersAttempted,
+        freeThrows: player.statistics.freeThrowsMade + "-" + player.statistics.freeThrowsAttempted
+      });
+    }
+    const homeTeamStats = {
+      fieldGoals: parsed.homeTeam.statistics.fieldGoalsMade + "-" + parsed.homeTeam.statistics.fieldGoalsAttempted,
+      fieldGoalsPct: parsed.homeTeam.statistics.fieldGoalsPercentage,
+      threePoints: parsed.homeTeam.statistics.threePointersMade + "-" + parsed.homeTeam.statistics.threePointersAttempted,
+      threePointsPct: parsed.homeTeam.statistics.threePointersPercentage,
+      freeThrows: parsed.homeTeam.statistics.freeThrowsMade + "-" + parsed.homeTeam.statistics.freeThrowsAttempted,
+      freeThrowsPct: parsed.homeTeam.statistics.freeThrowsPercentage,
+      rebounds: parsed.homeTeam.statistics.reboundsTotal,
+      offensiveRebounds: parsed.homeTeam.statistics.reboundsOffensive,
+      assists: parsed.homeTeam.statistics.assists,
+      steals: parsed.homeTeam.statistics.steals,
+      blocks: parsed.homeTeam.statistics.blocks,
+      turnovers: parsed.homeTeam.statistics.turnovers,
+    };
+
+    for(const player of parsed.awayTeam.players) {
+      awayPlayerStats.push({
+        playerId: player.personId,
+        playerName: player.firstName + " " + player.familyName,
+        position: player.position,
+        minutes: player.statistics.minutes,
+        points: player.statistics.points,
+        assists: player.statistics.assists,
+        rebounds: player.statistics.reboundsTotal,
+        steals: player.statistics.steals,
+        blocks: player.statistics.blocks,
+        turnovers: player.statistics.turnovers,
+        plusMinus: player.statistics.plusMinusPoints,
+        fouls: player.statistics.foulsPersonal,
+        fieldGoals: player.statistics.fieldGoalsMade + "-" + player.statistics.fieldGoalsAttempted,
+        threePoints: player.statistics.threePointersMade + "-" + player.statistics.threePointersAttempted,
+        freeThrows: player.statistics.freeThrowsMade + "-" + player.statistics.freeThrowsAttempted
+      });
+    }
+    const awayTeamStats = {
+      fieldGoals: parsed.awayTeam.statistics.fieldGoalsMade + "-" + parsed.awayTeam.statistics.fieldGoalsAttempted,
+      fieldGoalsPct: parsed.awayTeam.statistics.fieldGoalsPercentage,
+      threePoints: parsed.awayTeam.statistics.threePointersMade + "-" + parsed.awayTeam.statistics.threePointersAttempted,
+      threePointsPct: parsed.awayTeam.statistics.threePointersPercentage,
+      freeThrows: parsed.awayTeam.statistics.freeThrowsMade + "-" + parsed.awayTeam.statistics.freeThrowsAttempted,
+      freeThrowsPct: parsed.awayTeam.statistics.freeThrowsPercentage,
+      offensiveRebounds: parsed.awayTeam.statistics.reboundsOffensive,
+      rebounds: parsed.awayTeam.statistics.reboundsTotal,
+      assists: parsed.awayTeam.statistics.assists,
+      steals: parsed.awayTeam.statistics.steals,
+      blocks: parsed.awayTeam.statistics.blocks,
+      turnovers: parsed.awayTeam.statistics.turnovers,
+    }
+
+    return res.json({ homePlayerStats, awayPlayerStats, homeTeamStats, awayTeamStats });
+  } catch (error) {
+    console.error('Error fetching player game stats:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 app.get('/', (req, res) => {
   res.send('NBA Stats API is running!')
