@@ -99,6 +99,46 @@ const nbaTeamIds = [
   1610612764  //Washington Wizards
 ];
 
+const nbaTeams = [
+  { id: 1610612737, name: "Atlanta Hawks" },
+  { id: 1610612738, name: "Boston Celtics" },
+  { id: 1610612751, name: "Brooklyn Nets" },
+  { id: 1610612766, name: "Charlotte Hornets" },
+  { id: 1610612741, name: "Chicago Bulls" },
+  { id: 1610612739, name: "Cleveland Cavaliers" },
+  { id: 1610612742, name: "Dallas Mavericks" },
+  { id: 1610612743, name: "Denver Nuggets" },
+  { id: 1610612765, name: "Detroit Pistons" },
+  { id: 1610612744, name: "Golden State Warriors" },
+  { id: 1610612745, name: "Houston Rockets" },
+  { id: 1610612754, name: "Indiana Pacers" },
+  { id: 1610612746, name: "Los Angeles Clippers" },
+  { id: 1610612747, name: "Los Angeles Lakers" },
+  { id: 1610612763, name: "Memphis Grizzlies" },
+  { id: 1610612748, name: "Miami Heat" },
+  { id: 1610612749, name: "Milwaukee Bucks" },
+  { id: 1610612750, name: "Minnesota Timberwolves" },
+  { id: 1610612740, name: "New Orleans Pelicans" },
+  { id: 1610612752, name: "New York Knicks" },
+  { id: 1610612760, name: "Oklahoma City Thunder" },
+  { id: 1610612753, name: "Orlando Magic" },
+  { id: 1610612755, name: "Philadelphia 76ers" },
+  { id: 1610612756, name: "Phoenix Suns" },
+  { id: 1610612757, name: "Portland Trail Blazers" },
+  { id: 1610612758, name: "Sacramento Kings" },
+  { id: 1610612759, name: "San Antonio Spurs" },
+  { id: 1610612761, name: "Toronto Raptors" },
+  { id: 1610612762, name: "Utah Jazz" },
+  { id: 1610612764, name: "Washington Wizards" }
+];
+
+const teamIdMap = new Map(nbaTeams.map(t => [t.id, t.name]));
+
+function teamIdtoName(id){
+  if (id == null) return "Unknown Team";
+  return teamIdMap.get(Number(id)) || "Unknown Team";
+}
+
 async function getRandomTeam(){
   try{
     const randTeam = nbaTeamIds[Math.floor(Math.random() * nbaTeamIds.length)];
@@ -622,13 +662,22 @@ app.get('/api/games', async (req, res) => {
     const matches = [] //array of game objects
 
     for(const g of parsed) {
+      let h = ""
+      if(g[6].slice(4, 5) == '@'){
+        h = "Away"
+        isHome = false;
+      }else{
+        h = "Home"
+        isHome = true;
+      }
       matches.push({
         gameId: g[4],
         date: g[5],
         matchup: g[6],
         wl: g[7],
         homeScore: g[9],
-        awayScore: g[9]-g[27]
+        awayScore: g[9]-g[27],
+        location: h
       });
     }
 
@@ -639,6 +688,8 @@ app.get('/api/games', async (req, res) => {
   }
 });
 
+let homeTeamName = "";
+let awayTeamName = "";
 app.get('/api/boxscore/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -652,6 +703,8 @@ app.get('/api/boxscore/:id', async (req, res) => {
       }
     });
     const data = await response.json();
+    homeTeamName = teamIdtoName(data.resultSets[0].rowSet[0][6]);
+    awayTeamName = teamIdtoName(data.resultSets[0].rowSet[0][7]);
     const time = data.resultSets[4].rowSet[0]; 
     const stats = data.resultSets[5].rowSet;
     const teamPointsTrimmed = []
@@ -668,7 +721,7 @@ app.get('/api/boxscore/:id', async (req, res) => {
       }
     }
 
-    const table_headers = ["Quarter", "Q1", "Q2", "Q3", "Q4", "OT1", "OT2", "OT3", "OT4", "OT5", "OT6", "OT7", "OT8", "OT9", "OT10"]
+    const table_headers = ["Team", "Q1", "Q2", "Q3", "Q4", "OT1", "OT2", "OT3", "OT4", "OT5", "OT6", "OT7", "OT8", "OT9", "OT10"]
 
     const gameStats = {
       date: time[0],
@@ -710,10 +763,15 @@ app.get('/api/playergamestats/:id', async (req, res) => {
     const homePlayerStats = []
     const awayPlayerStats = []
     for (const player of parsed.homeTeam.players){
+      let playerName = ""
+      if(player.position){
+        playerName = player.firstName + " " + player.familyName + " (" + player.position + ")"
+      }else{
+        playerName = player.firstName + " " + player.familyName
+      }
       homePlayerStats.push({
         playerId: player.personId,
-        playerName: player.firstName + " " + player.familyName,
-        position: player.position,
+        playerName: playerName,
         minutes: player.statistics.minutes,
         points: player.statistics.points,
         assists: player.statistics.assists,
@@ -729,12 +787,13 @@ app.get('/api/playergamestats/:id', async (req, res) => {
       });
     }
     const homeTeamStats = {
+      teamName: homeTeamName,
       fieldGoals: parsed.homeTeam.statistics.fieldGoalsMade + "-" + parsed.homeTeam.statistics.fieldGoalsAttempted,
-      fieldGoalsPct: parsed.homeTeam.statistics.fieldGoalsPercentage,
+      fieldGoalsPct: (parsed.homeTeam.statistics.fieldGoalsPercentage * 100).toFixed(1) + "%",
       threePoints: parsed.homeTeam.statistics.threePointersMade + "-" + parsed.homeTeam.statistics.threePointersAttempted,
-      threePointsPct: parsed.homeTeam.statistics.threePointersPercentage,
+      threePointsPct: (parsed.homeTeam.statistics.threePointersPercentage * 100).toFixed(1) + "%",
       freeThrows: parsed.homeTeam.statistics.freeThrowsMade + "-" + parsed.homeTeam.statistics.freeThrowsAttempted,
-      freeThrowsPct: parsed.homeTeam.statistics.freeThrowsPercentage,
+      freeThrowsPct: (parsed.homeTeam.statistics.freeThrowsPercentage * 100).toFixed(1) + "%",
       rebounds: parsed.homeTeam.statistics.reboundsTotal,
       offensiveRebounds: parsed.homeTeam.statistics.reboundsOffensive,
       assists: parsed.homeTeam.statistics.assists,
@@ -744,9 +803,15 @@ app.get('/api/playergamestats/:id', async (req, res) => {
     };
 
     for(const player of parsed.awayTeam.players) {
+      let playerName = ""
+      if(player.position){
+        playerName = player.firstName + " " + player.familyName + " (" + player.position + ")"
+      }else{
+        playerName = player.firstName + " " + player.familyName
+      }
       awayPlayerStats.push({
         playerId: player.personId,
-        playerName: player.firstName + " " + player.familyName,
+        playerName: playerName,
         position: player.position,
         minutes: player.statistics.minutes,
         points: player.statistics.points,
@@ -763,12 +828,13 @@ app.get('/api/playergamestats/:id', async (req, res) => {
       });
     }
     const awayTeamStats = {
+      teamName: awayTeamName,
       fieldGoals: parsed.awayTeam.statistics.fieldGoalsMade + "-" + parsed.awayTeam.statistics.fieldGoalsAttempted,
-      fieldGoalsPct: parsed.awayTeam.statistics.fieldGoalsPercentage,
+      fieldGoalsPct: (parsed.awayTeam.statistics.fieldGoalsPercentage * 100).toFixed(1) + "%",
       threePoints: parsed.awayTeam.statistics.threePointersMade + "-" + parsed.awayTeam.statistics.threePointersAttempted,
-      threePointsPct: parsed.awayTeam.statistics.threePointersPercentage,
+      threePointsPct: (parsed.awayTeam.statistics.threePointersPercentage * 100).toFixed(1) + "%",
       freeThrows: parsed.awayTeam.statistics.freeThrowsMade + "-" + parsed.awayTeam.statistics.freeThrowsAttempted,
-      freeThrowsPct: parsed.awayTeam.statistics.freeThrowsPercentage,
+      freeThrowsPct: (parsed.awayTeam.statistics.freeThrowsPercentage * 100).toFixed(1) + "%",
       offensiveRebounds: parsed.awayTeam.statistics.reboundsOffensive,
       rebounds: parsed.awayTeam.statistics.reboundsTotal,
       assists: parsed.awayTeam.statistics.assists,
@@ -780,6 +846,106 @@ app.get('/api/playergamestats/:id', async (req, res) => {
     return res.json({ homePlayerStats, awayPlayerStats, homeTeamStats, awayTeamStats });
   } catch (error) {
     console.error('Error fetching player game stats:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/players-by-season/:season', async(req, res) => {
+  const { season } = req.params;
+  try {
+    const response = await fetch(`https://stats.nba.com/stats/playerindex?LeagueID=00&Season=${season}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet
+    const names = []
+    for(const player of parsed) {
+      names.push({
+        id: player[0],
+        name: player[2] + " " + player[1]
+      })
+    }
+    return res.json({ names });
+  } catch (error) {
+    console.error('Error fetching players by season:', error);
+    return res.status(500).json({ error: error.message });
+  }
+})
+
+app.get('/api/compare', async (req, res) => {
+  try {
+    const { player1Id, player2Id, season } = req.query;
+
+    if (!player1Id || !player2Id) {
+      return res.status(400).json({ error: 'Please provide two player IDs for comparison.' });
+    }
+
+    const url = `https://stats.nba.com/stats/playercompare?Conference=&DateFrom=&DateTo=&Division=&GameSegment=&LastNGames=0&LeagueID=&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=Totals&Period=0&PlayerIDList=${player1Id}&PlusMinus=N&Rank=N&Season=${season}&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=&VsPlayerIDList=${player2Id}`;
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet;
+    
+    let p1stats = {};
+    let p2stats = {};
+    p1stats = {
+      mins: parsed[0][2],
+      pts: parsed[0][22],
+      fgm: parsed[0][3],
+      fga: parsed[0][4],
+      fgPct: (parsed[0][5] * 100).toFixed(1) + "%",
+      threePm: parsed[0][6],
+      threePa: parsed[0][7],
+      threePct: (parsed[0][8] * 100).toFixed(1) + "%",
+      ftM: parsed[0][9],
+      ftA: parsed[0][10],
+      ftPct: (parsed[0][11] * 100).toFixed(1) + "%",
+      oRebs: parsed[0][12],
+      dRebs: parsed[0][13],
+      totalRebs: parsed[0][14],
+      assists: parsed[0][15],
+      turnovers: parsed[0][16],
+      steals: parsed[0][17],
+      blocks: parsed[0][18]
+    }
+
+    for(const p2 of parsed[1]){
+      //console.log(p2[2])
+      p2stats = {
+        mins: parsed[1][2],
+        pts: parsed[1][22],
+        fgm: parsed[1][3],
+        fga: parsed[1][4],
+        fgPct: (parsed[1][5] * 100).toFixed(1) + "%",
+        threePm: parsed[1][6],
+        threePa: parsed[1][7],
+        threePct: (parsed[1][8] * 100).toFixed(1) + "%",
+        ftM: parsed[1][9],
+        ftA: parsed[1][10],
+        ftPct: (parsed[1][11] * 100).toFixed(1) + "%",
+        oRebs: parsed[1][12],
+        dRebs: parsed[1][13],
+        totalRebs: parsed[1][14],
+        assists: parsed[1][15],
+        turnovers: parsed[1][16],
+        steals: parsed[1][17],
+        blocks: parsed[1][18]
+      }
+    }
+    return res.json({ p1stats, p2stats });
+  } catch (error) {
+    console.error('Error fetching player comparison stats:', error);
     return res.status(500).json({ error: error.message });
   }
 });

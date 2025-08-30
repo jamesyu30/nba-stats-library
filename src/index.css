@@ -387,7 +387,8 @@ header > img{
   margin: auto;
 }
 
-.conference_buttons{
+.conference_buttons, 
+.box_score_toggle{
   display: flex;
   gap: 0.25rem;
   width: 100%;
@@ -672,7 +673,8 @@ header > img{
   align-items: center;
 }
 
-.game_stats{
+.game_stats,
+.team_stats{
   display: flex;
   gap: 12px;
   justify-content: center;
@@ -685,11 +687,56 @@ header > img{
   margin: 16px auto;
 }
 
-.scoreTable{
+.scoreTable,
+.team_stats_table{
   width: 100%;
   border-collapse: collapse;
 }
 
-.game_score_header{
+.game_score_header,
+.team_stats_header {
   text-align: left;
+}
+
+.game_box_score{
+  width: 100%;
+  margin-top: 16px;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+.box_score_wrapper{
+  display: flex;
+  width: 60%;
+  background-color: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  flex-direction: column;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px auto;
+}
+
+.comparison_results{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+  background-color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.comparison_img {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.comparison_img img {
+  width: 100px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 8px;
 }

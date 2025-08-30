@@ -32,6 +32,9 @@
 - Added a table to view points by quarter
 
 ## 8/29/25
+- Finished game profile viewer with box score by team
+- Started working on player comparison tab
+- Implemented season selection dropdown and player selection from within the season
 
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN
