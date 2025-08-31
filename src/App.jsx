@@ -12,6 +12,8 @@ function App(){
   const [sortCol, setSortCol] = useState('') //column to be sorted
   const [sortOrder, setSortOrder] = useState('') //asc or desc
   const [lastCol, setLastCol] = useState('') //keeps track of last col so the cols reset correctly
+  const [totalPages, setTotalPages] = useState(0);
+  const [pageItems, setPageItems] = useState([]);
 
   function incrementPage(){
     setSortCol('') //resets sort between pages
@@ -98,9 +100,14 @@ function App(){
 
 
   const PER_PAGE = 25 //rows per page
-  const totalPages = Math.ceil(activePlayers.length / PER_PAGE)
   const startIndex = (pageNum - 1) * PER_PAGE
-  const pageItems = activePlayers.slice(startIndex, startIndex + PER_PAGE)
+  useEffect(() => {
+        const tp = Math.max(0, Math.ceil(activePlayers.length / PER_PAGE));
+        setTotalPages(tp);
+
+        const startIndex = (pageNum - 1) * PER_PAGE;
+        setPageItems(activePlayers.slice(startIndex, startIndex + PER_PAGE));
+    }, [activePlayers, pageNum, PER_PAGE]);
 
   const sortedPlayers = dataSort(sortCol, sortOrder, pageItems)
 

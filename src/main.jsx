@@ -14,6 +14,7 @@ import AllPlayers from './components/AllPlayers.jsx';
 import Games from './components/Games.jsx';
 import GamesProfile from './components/GamesProfile.jsx';
 import Compare from './components/Compare.jsx';
+import Stats from './components/Stats.jsx';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: '/compare',
     element: <Compare />,
+  },
+  {
+    path: '/stats',
+    element: <Stats />,
   }
 ])
 

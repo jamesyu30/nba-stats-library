@@ -27,7 +27,7 @@ export default function About() {
                 <h2>Why does the website sometimes break or take a long time to load data?</h2>
                 <p>There are several reasons why the website may experience issues or delays in loading data:</p>
                 <ul>
-                    <li><strong>API Limitations:</strong> The NBA API has rate limits in place to prevent abuse. If too many requests are made in a short period, the API may temporarily block further requests, leading to delays or errors.</li>
+                    <li><strong>API Limitations:</strong> The NBA API has rate limits in place to prevent abuse. If too many requests are made in a short period, the API may temporarily block further requests, leading to delays or errors. The API also lacks data from some fields leading to incomplete or missing information and unintended functionality.</li>
                     <li><strong>Network Issues:</strong> Slow or unstable internet connections can affect the loading speed of the website and the API responses.</li>
                     <li><strong>Data Processing:</strong> The application may need to process large amounts of data before displaying it, which can take time and may cause the website to appear unresponsive.</li>
                 </ul>

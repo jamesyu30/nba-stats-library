@@ -36,6 +36,17 @@
 - Started working on player comparison tab
 - Implemented season selection dropdown and player selection from within the season
 
+## 8/30/25
+- Completed comparison tab by displaying the stats from the API
+- Implemented stats tab
+- Player stats table with season, per mode, season type filters and ability to sort
+
+TO DO:
+Make logo clickable
+add links to game profile
+implement favorites
+sort icon not reseting?
+
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN
 NBA api from here: https://github.com/swar/nba_api/tree/master

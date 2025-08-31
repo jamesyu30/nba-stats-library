@@ -665,10 +665,8 @@ app.get('/api/games', async (req, res) => {
       let h = ""
       if(g[6].slice(4, 5) == '@'){
         h = "Away"
-        isHome = false;
       }else{
         h = "Home"
-        isHome = true;
       }
       matches.push({
         gameId: g[4],
@@ -900,7 +898,7 @@ app.get('/api/compare', async (req, res) => {
     let p1stats = {};
     let p2stats = {};
     p1stats = {
-      mins: parsed[0][2],
+      mins: parsed[0][2].toFixed(1),
       pts: parsed[0][22],
       fgm: parsed[0][3],
       fga: parsed[0][4],
@@ -923,7 +921,7 @@ app.get('/api/compare', async (req, res) => {
     for(const p2 of parsed[1]){
       //console.log(p2[2])
       p2stats = {
-        mins: parsed[1][2],
+        mins: parsed[1][2].toFixed(1),
         pts: parsed[1][22],
         fgm: parsed[1][3],
         fga: parsed[1][4],
@@ -946,6 +944,57 @@ app.get('/api/compare', async (req, res) => {
     return res.json({ p1stats, p2stats });
   } catch (error) {
     console.error('Error fetching player comparison stats:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+//CAN GET ADVANCED STATS IN FUTURE BY CHANGING URL
+app.get('/api/playerstats/', async (req, res) => {
+  try {
+    const { seasonType, perMode, season } = req.query;
+    const response = await fetch(`https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=&PaceAdjust=N&PerMode=${perMode}&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=${season}&SeasonSegment=&SeasonType=${seasonType}&ShotClockRange=&StarterBench=&TeamID=&TwoWay=&VsConference=&VsDivision=&Weight=`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Referer': 'https://www.nba.com/',
+        'Origin': 'https://www.nba.com',
+        'Accept': 'application/json, text/plain, */*'
+      }
+    });
+    const data = await response.json();
+    const parsed = data.resultSets[0].rowSet;
+    const playerData = []
+    for (const player of parsed){
+      playerData.push({
+        id: player[0],
+        name: player[1],
+        teamId: player[3],
+        team: player[4],
+        age: player[5],
+        gp: player[6],
+        mins: player[10].toFixed(1),
+        fgm: player[11],
+        fga: player[12],
+        fgPct: (player[13] * 100).toFixed(1) + "%",
+        fg3m: player[14],
+        fg3a: player[15],
+        fg3Pct: (player[16] * 100).toFixed(1) + "%",
+        ftm: player[17],
+        fta: player[18],
+        ftPct: (player[19] * 100).toFixed(1) + "%",
+        oreb: player[20],
+        dreb: player[21],
+        reb: player[22],
+        ast: player[23],
+        tov: player[24],
+        stl: player[25],
+        blk: player[26],
+        pts: player[30],
+      });
+    }
+
+    return res.json(playerData);
+  } catch (error) {
+    console.error('Error fetching player stats:', error);
     return res.status(500).json({ error: error.message });
   }
 });
