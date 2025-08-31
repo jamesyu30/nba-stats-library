@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import './index.css'
 import App from './App.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
@@ -15,6 +16,7 @@ import Games from './components/Games.jsx';
 import GamesProfile from './components/GamesProfile.jsx';
 import Compare from './components/Compare.jsx';
 import Stats from './components/Stats.jsx';
+import Favorites from './components/Favorites.jsx';
 
 const router = createBrowserRouter([
   {
@@ -61,11 +63,17 @@ const router = createBrowserRouter([
   {
     path: '/stats',
     element: <Stats />,
+  },
+  {
+    path: '/favorites',
+    element: <Favorites />,
   }
-])
+]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <CookiesProvider>
+      <RouterProvider router={router} />
+    </CookiesProvider>
   </StrictMode>,
 )

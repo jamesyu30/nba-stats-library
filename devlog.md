@@ -41,12 +41,20 @@
 - Implemented stats tab
 - Player stats table with season, per mode, season type filters and ability to sort
 
-TO DO:
-Make logo clickable
-add links to game profile
-implement favorites
-sort icon not reseting?
+## 8/31/25
+- Added favorites tab where you can see your favorite team and player
+- Added loading card
+- Made site logo clickable
+- Included hyperlinks to teams/players in games profile page
+- Added welcome popup
 
 NBA team logos from here: https://github.com/gtkacz/nba-logo-api
 Player headshots from official NBA CDN
 NBA api from here: https://github.com/swar/nba_api/tree/master
+
+Thoughts:
+- This website would be more responsive if I included a database for storing data from the api. That way it would completely negate the need to load data at some pages and result in less api calls. The reason why I did not use a database was because the website hosting service (heroku) has an ephemeral file system which makes sqlite3 (db I am familiar with) not work since it wipes any new data written every 24 hours. I had the option to use Postgresql with heroku, but I decided that the time it would take to learn would not be worth it since I am also learning react and express in this project.
+
+- In the future, features I would add are adding new tabs since the API has many more endpoints that I did not touch, adding advanced/more detailed stats to some pages, move the data to a db, make it more mobile friendly, and draft data.
+
+- Hardest part about this project was learning on the go. I came into this project with a beginner-level understanding of react and almost no experience in express, so a lot of the time was spent looking up documentation and searching for how I could implement this feature that I wanted. Some examples of that are the react router and cookies. I came into the project unaware of both packages, but I discovered that I need react router if I wanted client side navigation for my navbar as well as the links. I needed cookies to store some user personalization, mainly the favorites tab, because I did not have a db. API was a little hard to work with because of the documentation.

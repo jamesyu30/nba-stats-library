@@ -1,8 +1,10 @@
 import InfoCard from "./InfoCard";
 import Navbar from "./Navbar";
 import Table from "./Table";
+import LoadingCard from "./LoadingCard";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 
 export default function PlayerProfile() {
     const { id } = useParams();
@@ -10,6 +12,7 @@ export default function PlayerProfile() {
     const [seasonStats, setSeasonStats] = useState(null)
     const [yoyStats, setYoyStats] = useState(null)
     const [yoyPerGame, setYoyPerGame] = useState(false)
+    const [cookies, setCookie, removeCookie] = useCookies(['favPlayer', 'favTeam']);
 
     const yoyForTable = (Array.isArray(yoyStats) ? yoyStats : []).map(s => {
      if (!yoyPerGame) return s
@@ -24,7 +27,8 @@ export default function PlayerProfile() {
        stl: (Number(s.stl) / gp).toFixed(1),
        blk: (Number(s.blk) / gp).toFixed(1),
        tov: (Number(s.tov) / gp).toFixed(1),
-       fantasy: (Number(s.fantasy) / gp).toFixed(1)
+       fantasy: (Number(s.fantasy) / gp).toFixed(1),
+       plusMinus: (Number(s.plusMinus) / gp).toFixed(1)
      }
    })
 
@@ -60,12 +64,12 @@ export default function PlayerProfile() {
             <Navbar />
             {player ? <InfoCard title={player.name} birthdate={player.birthdate} country={player.country} school={player.school} height={player.height} weight={player.weight}
             exp={player.exp} jersey={player.jersey} position={player.position} teamId={player.teamId} team={player.team} draftInfo={player.draftInfo} rings={player.rings} 
-            mvp={player.mvp} allNba={player.allNba} allStar={player.allStar} image={true} playerId={id} cardType={"bio"}
-            categories={["Team", "Country", "School", "Height", "Weight", "Birthdate", "Exp", "Draft", "Championships", "MVP", "All-NBA", "All-Star"]}/> : <p>Loading...</p>}
+            mvp={player.mvp} allNba={player.allNba} allStar={player.allStar} image={true} playerId={id} cardType={"bio"} 
+            categories={["Team", "Country", "School", "Height", "Weight", "Birthdate", "Exp", "Draft", "Championships", "MVP", "All-NBA", "All-Star"]}/> : <LoadingCard />}
             
             {seasonStats ? <InfoCard title={"Season Stats"} age={seasonStats.age} pts={seasonStats.pts} reb={seasonStats.reb} ast={seasonStats.ast} stl={seasonStats.stl} blk={seasonStats.blk} plusMinus={seasonStats.plusMinus} 
             tov={seasonStats.tov} gp={seasonStats.gp} fga={seasonStats.fga} fgm={seasonStats.fgm} fgPct={seasonStats.fgPct} threePct={seasonStats.threePct} ftPct={seasonStats.ftPct} record={seasonStats.record} fantasy={seasonStats.fantasy} image={false} cardType={"season"}
-            categories={["Age", "GP", "Record", "FGM", "FGA", "FG%", "3P%", "FT%", "PTS", "REB", "AST", "STL", "BLK", "TOV", "Plus/Minus", "Fantasy Points"]} /> : null}
+            categories={["Age", "GP", "Record", "FGM", "FGA", "FG%", "3P%", "FT%", "PTS", "REB", "AST", "STL", "BLK", "TOV", "Plus/Minus", "Fantasy Points"]} /> : <LoadingCard />}
 
             {yoyStats ? (
              <div style={{ width: '100%' }}>
@@ -81,7 +85,6 @@ export default function PlayerProfile() {
                      height: '28px',
                      marginLeft: '2rem'
                    }}
-                   aria-pressed={yoyPerGame}
                    title="Toggle totals / per game"
                  >
                    {yoyPerGame ? 'Show Totals' : 'Show Per Game'}
@@ -93,7 +96,7 @@ export default function PlayerProfile() {
                  header={["Season", "Team", "GP", "Record", "FGM", "FGA", "FG%", "3P%", "FT%", "PTS", "REB", "AST", "STL", "BLK", "TOV", "+/-", "fPts"]}
                />
              </div>
-           ) : <p>Loading...</p>}
+           ) : <LoadingCard />}
         </div>
     )
 }

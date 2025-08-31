@@ -1,6 +1,27 @@
 import { Link } from "react-router-dom";
+import star from "../assets/star.png"
+import filledStar from "../assets/filledStar.png"
+import { useCookies } from 'react-cookie'
 
 export default function InfoCard(props) {
+
+    const [cookies, setCookie, removeCookie] = useCookies(['favPlayer', 'favTeam']);
+
+    const saveFavPlayer = (playerId) => {
+        setCookie('favPlayer', String(playerId), { path: '/'});
+    };
+
+    const removeFavPlayer = () => {
+        removeCookie('favPlayer', { path: '/'});
+    };
+
+    const saveFavTeam = (teamId) => {
+        setCookie('favTeam', String(teamId), { path: '/'})
+    }
+
+    const removeFavTeam = () => {
+        removeCookie('favTeam', { path: '/'})
+    }
 
     const bio = {
         "Birthdate": props.birthdate ?? "N/A",
@@ -85,7 +106,20 @@ export default function InfoCard(props) {
     return (
         <div className="info_card_wrapper">
             <article className="info_card">
-                <div className="info_card_header">{props.title} {props.cardType === "bio" ? " (" + props.position + " / #" + props.jersey + ")" : null}</div>
+            <div className="info_card_header">
+                    {props.cardType === "bio" ? (
+                        String(cookies.favPlayer) === String(props.playerId)
+                            ? <button onClick={removeFavPlayer}><img src={filledStar} alt="Remove favorite" /></button>
+                            : <button onClick={() => saveFavPlayer(props.playerId)}><img src={star} alt="Save favorite" /></button>
+                    ) : null}
+                    {props.cardType === "teamInfo" ? (
+                        String(cookies.favTeam) === String(props.teamId)
+                            ? <button onClick={removeFavTeam}><img src={filledStar} alt="Remove favorite" /></button>
+                            : <button onClick={() => saveFavTeam(props.teamId)}><img src={star} alt="Save favorite" /></button>
+                    ) : null}
+                    {props.title}
+                    {props.cardType === "bio" ? ` (${props.position} / #${props.jersey})` : null}
+                </div>
                 <div className="info_card_body">
                     {props.image && props.cardType=="bio" && <img src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${props.playerId}.png`} alt={props.title} className="info_card_img" />}
                     {props.image && props.cardType=="teamInfo" && <img src={`https://raw.githubusercontent.com/gtkacz/nba-logo-api/main/icons/${props.abv}.svg`} alt={props.title} className="info_card_img" />}

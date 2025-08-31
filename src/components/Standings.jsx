@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import LoadingCard from "./LoadingCard";
 
 const mockEast = [
   { rank: 1, team: "BOS", teamId: 1610612738, w: 58, l: 24, pct: ".707", gb: "—" },
@@ -114,7 +115,7 @@ export default function Standings() {
             );
           })}
         </tbody>
-      </table> ) : <p>Loading...</p>}
+      </table> ) : <LoadingCard />}
     </section>
     </>
   )

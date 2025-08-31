@@ -292,10 +292,13 @@ header > img{
 }
 
 .info_card_header{
+  display: flex;         
+  align-items: center;
+  justify-content: center;
+  gap: 8px;              
   font-size: 2rem;
   font-weight: 600;
   text-align: center;
-  align-items: last baseline;
   margin: 0;
   padding-top: 0.5rem;
 }
@@ -324,7 +327,7 @@ header > img{
   overflow: visible;
 }
 
-.info_card_stats > p {
+.info_card_stats > p{
   margin: 0;
   line-height: 1.25;
 }
@@ -444,13 +447,13 @@ header > img{
   margin: 0;
 }
 
-.players_list {
+.players_list{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
 }
 
-.player_card {
+.player_card{
   display: flex;
   align-items: center;
   gap: 12px;
@@ -464,7 +467,7 @@ header > img{
   overflow: hidden;
 }
 
-.player_card:hover {
+.player_card:hover{
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(10,30,60,0.06);
 }
@@ -478,7 +481,7 @@ header > img{
   padding-bottom: 1rem;
 }
 
-.player_info {
+.player_info{
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -558,7 +561,7 @@ header > img{
   font-size: 12px;
 }
 
-.gameResults {
+.gameResults{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -578,7 +581,7 @@ header > img{
   cursor: pointer;
 }
 
-.gameResults > strong {
+.gameResults > strong{
   display: block;
   font-weight: 700;
   color: #083046;
@@ -586,7 +589,7 @@ header > img{
   font-size: 0.95rem;
 }
 
-.gameResults > span {
+.gameResults > span{
   font-weight: 800;
   color: #0a66c2;
   min-width: 88px;
@@ -594,7 +597,7 @@ header > img{
   font-size: 0.98rem;
 }
 
-.gameResults:hover {
+.gameResults:hover{
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(10,30,60,0.06);
 }
@@ -631,7 +634,7 @@ header > img{
   margin-top: 16px;
 }
 
-.game_profile_info > p {
+.game_profile_info > p{
   width: 100%;
   text-align: left;
   margin: 0;
@@ -736,7 +739,7 @@ header > img{
   gap: 8px;
 }
 
-.comparison_img2 {
+.comparison_img2{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -754,7 +757,7 @@ header > img{
   display: block;
 }
 
-.comparison_table {
+.comparison_table{
   border-collapse: collapse;
   table-layout: fixed;
   border-spacing: 0 6px;      
@@ -763,7 +766,7 @@ header > img{
   font-size: 1.5rem;
 }
 
-.comparison_table > thead > th {
+.comparison_table > thead > th{
   background: transparent;
   font-weight: 700;
   color: #123;
@@ -775,25 +778,25 @@ header > img{
   white-space: nowrap;
 }
 
-.comparison_table > tbody > tr {
+.comparison_table > tbody > tr{
   background: #fff;
   height: 32px;           
   display: table-row;          
 }
 
-.comparison_table > tbody > td {
+.comparison_table > tbody > td{
   vertical-align: middle;
   color: #102a43;
 }
 
-.statBetter {
+.statBetter{
   background: #e8fbeb;
   border-radius: 8px;
   padding-right: 12px;
 }
 
 .player_select,
-.season_select {
+.season_select{
   display: inline-block;
   width: 260px;             
   max-width: 100%;
@@ -807,7 +810,7 @@ header > img{
   cursor: pointer;
 }
 
-.player_form {
+.player_form{
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -850,7 +853,7 @@ header > img{
   border-radius: 8px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   margin: 1rem auto 1rem;
-  width: 90%;
+  width: 96%;
   padding: 12px 16px;
 }
 
@@ -872,7 +875,7 @@ header > img{
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   width: fit-content;
   padding: 8px 12px;
-  margin: auto 4% auto auto;
+  margin: auto 2% auto auto;
 }
 
 .stats_table_link {
@@ -883,4 +886,158 @@ header > img{
 
 .stats_table_link:hover {
   text-decoration: underline;
+}
+
+.logoLink {
+  display: inline-block;
+  padding: 0;
+  margin-right: 16px; 
+  vertical-align: middle;
+}
+
+.siteLogo {
+  width: 50px;     
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.info_card_header > button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-right: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info_card_header > button > img {
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+}
+
+.favorites_title{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #1d4ed8;
+}
+
+.no_favorites{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 90px 18px;
+  margin: 12px auto;
+  width: 96%;
+  background: rgba(2,6,23,0.02);
+  color: #475569;
+  font-size: 1rem;
+  font-style: italic;
+  border: 1px dashed rgba(71,85,105,0.12);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.loading_card {
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  padding: 90px 18px;
+  margin: 12px auto;
+  width: 96%;
+  background: rgba(2,6,23,0.02);
+  color: #475569;
+  font-size: 1rem;
+  font-style: italic;
+  border: 1px dashed rgba(71,85,105,0.12);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.loading_card .dots{
+  display: inline-block;
+  width: 3ch;
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.loading_card > .dots > .dot{
+  display: inline-block;
+  opacity: .5;
+  transform: translateY(0);
+  animation: loading-dot 1s infinite;
+}
+
+.loading_card > .dots > .dot:nth-child(1) { animation-delay: 0s; }
+.loading_card > .dots > .dot:nth-child(2) { animation-delay: 0.15s; }
+.loading_card > .dots > .dot:nth-child(3) { animation-delay: 0.30s; }
+
+@keyframes loading-dot{
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-4px); }
+  60%  { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+.welcome{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2,6,23,0.45);
+  z-index: 1200;
+  animation: fadeIn 220ms ease;
+}
+
+.welcome_popup{
+  width: min(680px, 92%);
+  background: #fff;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 18px 60px rgba(2,6,23,0.28);
+  text-align: center;
+  color: #0f1724;
+}
+
+.welcome_popup > h2{
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: green;
+}
+
+.welcome_panel > p{
+  margin: 0 0 16px;
+  color: #57749d;
+}
+
+.welcome_button{
+  background-color: crimson;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(10,102,194,0.1);
+  color: white;
+}
+
+.card_link,
+.card_link:link,
+.card_link:visited {
+  display: inline-flex;       
+  text-decoration: none;
+  width: 640px;
+  color: inherit;
 }

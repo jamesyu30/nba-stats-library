@@ -155,6 +155,7 @@ async function getRandomTeam(){
     const parsed = data.resultSets[0].rowSet[0] //parsed data
 
     const teamData = {
+      id: randTeam,
       name: parsed[4] + " " + parsed[2] + " (" + parsed[1] + ")",
       arena: parsed[5] + " (Capacity: " + parsed[6] + ")",
       owner: parsed[7],
@@ -734,7 +735,9 @@ app.get('/api/boxscore/:id', async (req, res) => {
       oppTeamRecord: stats[1][7],
       oppTeamPoints: oppTeamPointsTrimmed,
       oppTotalPoints: stats[1][22],
-      headers: table_headers.slice(0, teamPointsTrimmed.length + 1) //slices the headers array to match the number of quarters played
+      headers: table_headers.slice(0, teamPointsTrimmed.length + 1), //slices the headers array to match the number of quarters played
+      homeTeamId: data.resultSets[0].rowSet[0][6],
+      awayTeamId: data.resultSets[0].rowSet[0][7]
     }
 
     return res.json({ gameStats });

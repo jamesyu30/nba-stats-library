@@ -4,9 +4,12 @@ import { NavLink } from "react-router-dom";
 export default function Navbar() {
   return (
     <header>
-          <img src={logo} alt="NBA Logo" /> {/* IMPLEMENT REDIRECT LATER */}
+          <NavLink to="/" className="logoLink" aria-label="Home">
+            <img src={logo} alt="NBA Logo" className="siteLogo" />
+          </NavLink>
     <nav className="navbar">
           <NavLink to="/"><p>Home</p></NavLink>
+          <NavLink to="/favorites"><p>Favorites</p></NavLink>
           <NavLink to="/allplayers"><p>Players</p></NavLink>
           <NavLink to="/teams"><p>Teams</p></NavLink>
           <NavLink to="/stats"><p>Stats</p></NavLink>
