@@ -4,7 +4,10 @@ import cors from 'cors'
 const app = express()
 const PORT = process.env.PORT || 4000
 
-app.use(cors())
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*', // tighten to https://your-frontend.onrender.com
+  credentials: true
+}));
 app.use(express.json())
 
 const SEASON = '2024-25' //default season for active players
