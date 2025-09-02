@@ -26,6 +26,13 @@ async function getRandomPlayer(){
         'Accept': 'application/json, text/plain, */*'
       }
     })
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => '<no body>');
+      console.error(`NBA API returned ${response.status} ${response.statusText} for ${url} — body:`, text);
+      throw new Error(`NBA API ${response.status}: ${text}`);
+    }
+    
     const data = await response.json()
 
     const randPlayer = Math.floor(Math.random() * data.resultSets[0].rowSet.length)
