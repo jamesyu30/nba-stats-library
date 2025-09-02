@@ -3,7 +3,7 @@
 NBA Stats Library is a lightweight React (Vite) frontend paired with an Express backend that surfaces NBA player and game information through simple, cache-friendly API endpoints. It supports browsing active players, viewing box scores and player game stats, viewing up to date standings, the ability to compare players, and saving favorites (client-side cookies). Data is sourced from public NBA endpoints (https://github.com/swar/nba_api/tree/master); additional information about the project can be found in the about tab. 
 
 ## Website
-The demo of the react frontend is hosted on Render and can be found at this [link](https://nba-stats-library-o2e9.onrender.com/). The website lacks functionality due to the lack of backend. The backend unfortunately could not be hosted because the NBA API blocks requests from cloud hosting services such as AWS (which render and a bunch of other services uses). More information about the issue is found [here](https://github.com/bttmly/nba/issues/41) and [here](https://github.com/seemethere/nba_py/issues/88).
+The demo of the react frontend is hosted on Render and can be found at this [link](https://nba-stats-library-o2e9.onrender.com/). The website lacks functionality due to the lack of backend. The backend unfortunately could not be hosted because the NBA API blocks requests from cloud hosting services such as AWS and DigitalOcean (which render and a bunch of other services uses). More information about the issue is found [here](https://github.com/bttmly/nba/issues/41) and [here](https://github.com/seemethere/nba_py/issues/88).
 
 ## Prerequisites
 - Node.js 18+ (recommended)
