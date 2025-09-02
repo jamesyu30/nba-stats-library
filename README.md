@@ -1,12 +1,58 @@
-# React + Vite
+# NBA Stats Library
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+NBA Stats Library is a lightweight React (Vite) frontend paired with an Express backend that surfaces NBA player and game information through simple, cache-friendly API endpoints. It supports browsing active players, viewing box scores and player game stats, viewing up to date standings, the ability to compare players, and saving favorites (client-side cookies). Data is sourced from public NBA endpoints (https://github.com/swar/nba_api/tree/master); additional information about the project can be found in the about tab. 
 
-Currently, two official plugins are available:
+## Website
+The demo of the react frontend is hosted on Render and can be found at this [link][https://nba-stats-library-o2e9.onrender.com/]. The website lacks functionality due to the lack of backend. The backend unfortunately could not be hosted because the NBA API blocks requests from cloud hosting services such as AWS (which render and a bunch of other services uses). More information about the issue is found [here][https://github.com/bttmly/nba/issues/41] and [here][https://github.com/seemethere/nba_py/issues/88].
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Prerequisites
+- Node.js 18+ (recommended)
+- npm
+- Git
 
-## Expanding the ESLint configuration
+## Quick overview
+- Frontend: Vite React app in `src/`
+- Backend: Express server `server.js` (API endpoints used by the frontend)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# How to run
+
+## Install
+From project root:
+```bash
+npm ci
+```
+
+## Environment (local)
+Create a `.env` in the repo root (do NOT commit):
+```env
+# filepath: .env (example)
+VITE_API_URL=http://localhost:4000
+```
+
+## Run locally
+1. Start backend (terminal 1)
+```bash
+# start Express backend
+node server.js
+# open http://localhost:4000
+# or if package.json provides a start script:
+# npm start
+```
+
+2. Start frontend (terminal 2)
+```bash
+npm run dev
+# open http://localhost:5173
+```
+
+3. Go to http://localhost:5173 and enjoy the website!
+
+## Helpful git settings
+Add to `.gitignore`:
+```
+node_modules/
+dist/
+.env
+.env.local
+```
+
