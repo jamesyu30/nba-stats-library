@@ -1012,6 +1012,44 @@ app.get('/api/playerstats/', async (req, res) => {
   }
 });
 
+app.get('/api/_test-fetch', async (req, res) => {
+  try {
+    const testUrls = [
+      'https://data.nba.net/prod/v1/2024/players.json', // usually permissive
+      'https://stats.nba.com/stats/playerindex?Season=2024-25&LeagueID=00&TeamID=0' // often blocked
+    ];
+
+    const results = [];
+    for (const url of testUrls) {
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Node',
+            'Referer': 'https://www.nba.com'
+          },
+          redirect: 'follow'
+        });
+        const body = await response.text().catch(() => '<no body>');
+        results.push({
+          url,
+          ok: response.ok,
+          status: response.status,
+          statusText: response.statusText,
+          length: body.length
+        });
+      } catch (err) {
+        results.push({ url, error: err.message });
+      }
+    }
+
+    return res.json({ ok: true, results });
+  } catch (err) {
+    console.error('/api/_test-fetch error', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 app.get('/', (req, res) => {
   res.send('NBA Stats API is running!')
 })
